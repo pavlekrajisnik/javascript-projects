@@ -60,6 +60,7 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+let currentUser;
 
 //FUNCTIONS
 const displayMovements = function (movements) {
@@ -78,8 +79,6 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const createUserName = function (accs) {
   accs.forEach(function (acc) {
@@ -90,5 +89,51 @@ const createUserName = function (accs) {
       .join('');
   });
 };
-createUserName(accounts);
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+
+const calcDisplaySummary = function (acc) {
+  const income = acc.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${income} EUR `;
+  const out = acc.movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${out} EUR`;
+  const interest = acc.movements
+    .filter(mov => mov > 0)
+    .map(val => (val * 1.2) / 100)
+    .filter(int => int >= 1)
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest} EUR`;
+};
+
+//Event handler
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentUser = accounts.find(
+    account => account.username === inputLoginUsername.value
+  );
+  console.log(currentUser);
+  if (currentUser?.pin == Number(inputLoginPin.value)) {
+    labelWelcome.textContent = `Welcome back, ${
+      currentUser.owner.split(' ')[0]
+    }`;
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+    containerApp.style.opacity = 100;
+    //Display movements
+    displayMovements(currentUser.movements);
+    //Display balance
+    calcDisplayBalance(currentUser.movements);
+    //Display summary
+    calcDisplaySummary(currentUser);
+  }
+});
+
 console.log(accounts);
+createUserName(accounts);
