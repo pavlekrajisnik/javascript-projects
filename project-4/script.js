@@ -160,6 +160,18 @@ btnTransfer.addEventListener('click', function (e) {
     inputTransferAmount.blur();
   }
 });
-
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (
+    currentUser.username === inputCloseUsername.value &&
+    currentUser.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentUser.username
+    );
+    accounts.splice(index, 1);
+  }
+  inputClosePin.value = inputCloseUsername.value = '';
+});
 console.log(accounts);
 createUserName(accounts);
