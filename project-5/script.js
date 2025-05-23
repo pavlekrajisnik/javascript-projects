@@ -11,6 +11,7 @@ const tabs = document.querySelectorAll(".operations__tab");
 const tabsContent = document.querySelectorAll(".operations__content");
 const tabsContainer = document.querySelector(".operations__tab-container");
 const nav = document.querySelector(".nav");
+const header = document.querySelector(".header"); 
 
 const openModal = function (e) {
   e.preventDefault();
@@ -78,5 +79,35 @@ const handleHover = function(e) {
   }
 }
 nav.addEventListener('mouseover',handleHover.bind(0.5));
-
 nav.addEventListener('mouseout',handleHover.bind(1));
+
+// const obsCallback = function(entries,observer){
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   })
+// };
+// const obsOptions = {
+//   root:null,
+//   threshold:0.1,
+// };
+
+// const observer = new IntersectionObserver(obsCallback,obsOptions);
+// observer.observe(section1);
+
+const obsCallback = function(entries){
+  const [entry] = entries;
+  if(!entry.isIntersecting){
+    nav.classList.add("sticky");
+  }else{
+    nav.classList.remove("sticky");
+  }
+}
+
+const obsOptions = {
+  root:null,
+  threshold:0,
+  rootMargin: '-90px',
+};
+
+const headerObserver = new IntersectionObserver(obsCallback,obsOptions);
+headerObserver.observe(header);
