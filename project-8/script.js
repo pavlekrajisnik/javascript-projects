@@ -67,25 +67,38 @@ GOOD LUCK 😀
 */
 
 const btnWhereAmI = document.querySelector(".btn-country");
-const whereAmI = (lat,lng) => {
-  fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`)
-  .then(response => response.json()).then(data => fetch(`https://restcountries.com/v2/name/${data.countryName}`)
-  .then(response =>{
-      if (!response.ok) throw new Error('Problem getting country data');
-       return response.json()
-      }
-    )
-    .then(countryData => {
-      renderCountry(countryData[0],countryData[0].name); 
-      let msg = `You are in ${countryData[0].capital},${countryData[0].name}`
-       countriesContainer.insertAdjacentText('beforeend', msg);
-    })
-    .catch(err => {
-      renderError(`💥 ${err.message}`);
-    }));
-} 
-  btnWhereAmI.addEventListener("click", () => {
-      whereAmI(45.508, 13.81)
-      btnWhereAmI.style.opacity = 0;
-  },{once: true});
+//Sa PROMISE CHAINING
+// const whereAmI = (lat,lng) => {
+//   fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`)
+//   .then(response => response.json()).then(data => fetch(`https://restcountries.com/v2/name/${data.countryName}`)
+//   .then(response =>{
+//       if (!response.ok) throw new Error('Problem getting country data');
+//        return response.json()
+//       }
+//     )
+//     .then(countryData => {
+//       renderCountry(countryData[0],countryData[0].name); 
+//       let msg = `You are in ${countryData[0].capital},${countryData[0].name}`
+//        countriesContainer.insertAdjacentText('beforeend', msg);
+//     })
+//     .catch(err => {
+//       renderError(`💥 ${err.message}`);
+//     }));
+// } 
+//   btnWhereAmI.addEventListener("click", () => {
+//       whereAmI(45.508, 13.81)
+//       btnWhereAmI.style.opacity = 0;
+//   },{once: true});
   
+const whereAmI = async function (countryName) {
+  const res = await fetch(`https://restcountries.com/v2/name/${countryName}`);
+  console.log(res);
+  const data = await res.json();
+  renderCountry(data[0],"serbia");
+  console.log(data);
+}
+
+btnWhereAmI.addEventListener("click", () => {
+    whereAmI("serbia");
+       btnWhereAmI.style.opacity = 0;
+         },{once: true});
