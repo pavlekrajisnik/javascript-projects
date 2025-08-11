@@ -1,7 +1,5 @@
 .DS_Store
-
 /_practice
-
-/node_modules
-
+node_modules/
 dist/
+.parcel-cache/
