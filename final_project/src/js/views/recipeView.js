@@ -59,6 +59,7 @@ export class RecipeView{
   addHandlerRander(handler){
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev,handler));
   }
+
   _generateMarkup(){
     return ` 
       <figure class="recipe__fig">
