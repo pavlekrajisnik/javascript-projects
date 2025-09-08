@@ -4,6 +4,10 @@ import '../sass/main.scss';
 import recipeView from './views/recipeView.js';
 import resultsView from './views/resultsView.js';
 
+if (module.hot) {
+  module.hot.accept();
+}
+
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -45,9 +49,11 @@ const controlSearchResults = async function () {
     resultsView.renderSpinner();
     const query = searchView.getQuery()
     if(!query) return;
+
     await model.loadSearchResults(query);
+
     console.log(model.state.search.results);
-    resultsView.render(model.state.search.results)
+    resultsView.render(model.state.search.results);
   }catch (err) {
     console.log(err); 
   }
