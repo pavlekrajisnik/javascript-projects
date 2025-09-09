@@ -33,24 +33,20 @@ export class paginationView extends View {
     })
   };
  _generateMarkup(){
-  const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
-  const currPage = this._data.page;
-  console.log(numPages);
-  console.log('currPage:', currPage, 'numPages:', numPages);
-
-
-    if(currPage === 1 && numPages > 1){
+    const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
+    const currPage = this._data.page;
+      if(currPage === 1 && numPages > 1){
        return this._generateRightMarkup(currPage);
-    }
+      }
 
-    if(currPage === numPages && numPages > 1){
+      if(currPage === numPages && numPages > 1){
          return this._generateLeftMarkup(currPage);
-    }
+      }
 
-       if (currPage < numPages){
+      if (currPage < numPages){
         return this._generateLeftMarkup(currPage) + this._generateRightMarkup(currPage);
-    }
-     return 'only 1 page';
+      }
+      return 'only 1 page';
   }
 }
 
