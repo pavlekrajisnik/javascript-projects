@@ -53,15 +53,20 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     console.log(model.state.search.results);
-    resultsView.render(model.getSearchResultsPage(3));
+    resultsView.render(model.getSearchResultsPage(6));
     paginationView.render(model.state.search);
   }catch (err) {
     console.log(err); 
   }
 }
+const controlPagination = function(goToPage){
+  resultsView.render(model.getSearchResultsPage(goToPage));
+  paginationView.render(model.state.search);
+}
 const init = function(){
   recipeView.addHandlerRander(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination)
 }
 init();
 // window.addEventListener("hashchange",controlRecipes);
