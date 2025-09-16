@@ -5,6 +5,8 @@ import recipeView from './views/recipeView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
+import AddRecipeView from './views/addRecipeView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 if (module.hot) {
   module.hot.accept();
@@ -85,12 +87,16 @@ const controlAddBookmark = function(){
   bookmarksView.render(model.state.bookmarks);
 }
 
+const controlAddRecipe = function(newRecipe){
+  console.log(newRecipe);
+}
 const init = function(){
   recipeView.addHandlerRander(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 }
 init();
 // window.addEventListener("hashchange",controlRecipes);
